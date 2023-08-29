@@ -1,0 +1,57 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Glowing Chainsaw Simulation")
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+CHAINSAW_COLOR = (128, 128, 128)
+GLOW_COLOR = (255, 0, 0)
+
+# Chainsaw properties
+CHAINSAW_WIDTH = 50
+CHAINSAW_HEIGHT = 200
+CHAINSAW_SPEED = 5
+
+# Glowing effect properties
+glow_radius = 0
+glow_max_radius = 30
+glow_increment = 1
+
+# Chainsaw position
+chainsaw_x = (WIDTH - CHAINSAW_WIDTH) // 2
+chainsaw_y = HEIGHT - CHAINSAW_HEIGHT - 10
+
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Update glowing effect
+    glow_radius += glow_increment
+    if glow_radius > glow_max_radius or glow_radius < 0:
+        glow_increment *= -1
+
+    # Clear the screen
+    screen.fill(BLACK)
+
+    # Draw glowing effect
+    pygame.draw.circle(screen, GLOW_COLOR, (chainsaw_x + CHAINSAW_WIDTH // 2, chainsaw_y - glow_radius), glow_radius)
+
+    # Draw chainsaw
+    pygame.draw.rect(screen, CHAINSAW_COLOR, (chainsaw_x, chainsaw_y, CHAINSAW_WIDTH, CHAINSAW_HEIGHT))
+
+    pygame.display.flip()
+    clock.tick(30)
+
+pygame.quit()
